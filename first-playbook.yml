@@ -1,0 +1,27 @@
+---
+- name: Set up Nginx web server
+  hosts: webservers
+  become: yes
+  
+  tasks:
+  - name: Install Nginx
+    apt:
+      name: nginx
+      state: present
+
+  - name: Start Nginx service
+    service:
+      name: nginx
+      state: started
+      enabled: yes
+
+  - name: Copy Nginx configuration file
+    copy:
+      src: nginx.conf
+      dest: /etc/nginx/nginx.conf
+      mode: 0644
+
+  - name: Restart Nginx service to apply changes
+    service:
+      name: nginx
+      state: restarted
